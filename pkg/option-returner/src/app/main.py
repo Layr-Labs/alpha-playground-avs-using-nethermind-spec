@@ -7,7 +7,7 @@ import os
 
 
 version = os.getenv("VERSION", "v3.0.0")
-health = 200
+HEALTH = 200
 
 app = FastAPI()
 
@@ -63,10 +63,10 @@ def get_option(option_target: str):
 
 @app.post("/health/{status_code}")
 def update_health(status_code: int):
-    global health
+    global HEALTH
     if status_code not in [200, 206, 503]:
         raise HTTPException(status_code=400, detail="Invalid status code")
-    health = status_code
+    HEALTH = status_code
 
 
 @app.get("/eigen/node/spec-version")
@@ -81,7 +81,7 @@ def get_version():
 
 @app.get("/eigen/node/health", status_code=200)
 def get_health(response: Response):
-    response.status_code = health
+    response.status_code = HEALTH
 
 
 @app.get("/eigen/node/services")
